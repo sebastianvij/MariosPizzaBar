@@ -53,4 +53,38 @@ public class PizzaMenuList {
     public String getpSize() {
         return pSize;
     }
+
+    public void pizzaList() {
+        ArrayList<String> pizzaNames = new ArrayList<>();
+        pizzaNames.add("Margherita");
+        pizzaNames.add("Vesuvio");
+        pizzaNames.add("Hawaii");
+        pizzaNames.add("Pepperoni");
+        pizzaNames.add("Kebabpizza");
+        pizzaNames.add("Buffalo");
+        pizzaNames.add("Parma");
+        pizzaNames.add("BBQ Kylling");
+        pizzaNames.add("Quattro Formaggi");
+        pizzaNames.add("Vegetariana");
+        pizzaNames.add("Diavola");
+        pizzaNames.add("Calzone");
+        pizzaNames.add("Funghi");
+        pizzaNames.add("Proscuitto");
+        pizzaNames.add("Tonno");
+        pizzaNames.add("Salami");
+        pizzaNames.add("Bolognese");
+        pizzaNames.add("Carbonara");
+        pizzaNames.add("Gorgonzola");
+        pizzaNames.add("Æg og Bacon");
+        pizzaNames.add("Fiskefilet");
+        pizzaNames.add("Pommes Frites Pizza");
+        pizzaNames.add("Mexicana");
+        pizzaNames.add("Burger Pizza");
+        pizzaNames.add("Kylling i karry");
+        pizzaNames.add("Ansjoser og banan");
+        pizzaNames.add("Chokolade Pizza");
+        pizzaNames.add("Rugbrøds Pizza");
+        pizzaNames.add("Sushi Pizza");
+        pizzaNames.add("Dessert Pizza");
+    }
 }
