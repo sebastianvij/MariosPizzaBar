@@ -1,5 +1,3 @@
-import javax.xml.namespace.QName;
-
 public class PizzaMenuList {
     private String name;
     private int price;
