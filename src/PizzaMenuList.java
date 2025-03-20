@@ -15,6 +15,7 @@ public class PizzaMenuList {
         this.pSize=pSize;
         this.pCondiments=pCondiments;
     }
+
     //Settere og gettere
     public void setName(String name) {
         this.name = name;
@@ -55,4 +56,6 @@ public class PizzaMenuList {
     public String getpSize() {
         return pSize;
     }
+
+
 }
