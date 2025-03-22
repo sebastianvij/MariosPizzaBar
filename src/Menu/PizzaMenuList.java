@@ -41,6 +41,14 @@ public class PizzaMenuList {
         pizzaList.add(new Pizza("Dessert Pizza", 72, 30, new String[]{"Vaniljesauce", "Marcipan", "Jordbær", "Hindbær", "Flormelis"}));
     }
     // Vi skal have en "Show pizza list" metode
+    public static void ShowPizzaList() {
+        System.out.println("Available pizzas:");
+        for (Pizza pizza : pizzaList) {
+            System.out.println(pizza);
+        }
+
+    }
+
 
     // Vi skal have en "Add pizza to pizza list" metode
 }

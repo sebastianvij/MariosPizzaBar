@@ -5,14 +5,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 import static Menu.PizzaMenuList.pizzaList;
 
 public class Main {
+    public static List<Order> orderList = new ArrayList<>();
     private static final int DEFAULT_ORDER_DELAY_IN_MINUTES = 15;
 
     public static void main(String[] args) {
@@ -27,6 +25,8 @@ public class Main {
         // 7. Se Ordrehistorik
         // 8. Se Statistik
         // 9. Afslut Program
+
+
 
         while (true) {
             System.out.println("           -*-*- Marios Pizzabar -*-*-");
@@ -62,7 +62,7 @@ public class Main {
 
                     int pizzaNumber = 0;
                     while (true) {
-                        System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge 123pizza");
+                        System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
                         System.out.println("> Indtast 'menu' for at vise menuen");
                         System.out.println("> Indtast '0' for at annullere ordre");
                         String pizzaChoice = scanner.nextLine();
@@ -76,12 +76,12 @@ public class Main {
                         try {
                             pizzaNumber = Integer.parseInt(pizzaChoice);
                             if (pizzaNumber < 1 || pizzaNumber > pizzaList.size()) {
-                                System.out.println("> Indtast '1 - " + pizzaList.size() + "' for a12312t vælge pizza");
+                                System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
                             } else {
                                 break;
                             }
                         } catch (NumberFormatException e) {
-                            System.out.println("> Indtast '1 - " + pizzaList.size() + "' for asssst vælge pizza");
+                            System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
                         }
                     }
                     String pizzaName = pizzaList.get(pizzaNumber - 1).getName();
@@ -215,6 +215,7 @@ public class Main {
                     }
 
                     Order order = new Order(orderLines, customerName, customerPhoneNumber, orderTime, pickupTime, customerComment);
+                    orderList.add(order);
 
                     System.out.println("Ordre (" + order.getOrderNumber() + ") oprettet " + orderTime.getDayOfMonth() + "/" + orderTime.getMonthValue() + "/" + orderTime.getYear() + " kl. " + orderTime.getHour() + ":" + orderTime.getMinute());
                     for (OrderLine line : orderLines) {
@@ -234,15 +235,12 @@ public class Main {
 
                     break;
                 case 5: // Vis Ordreliste
-                    System.out.println("Vis ordre?");
-                    //TODO: Oliver: Fix iteration af individuelle orders
+                    System.out.println("> OrdreListe");
+                    for (Order orderListing : orderList) {
+                        System.out.println(orderListing);
+                    }
 
-                    //                    for (Order order1 : orderList) {
-                    //                        System.out.println();
-                    //
-                    //
-                    //
-                    //                    }
+
 
 
                     break;
@@ -269,4 +267,7 @@ public class Main {
             }
         }
     }
+
+
+
 }

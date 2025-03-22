@@ -77,5 +77,10 @@ public class Order {
     public static boolean isPickUpTimeToday(LocalDateTime pickupTime) {
         return pickupTime.toLocalDate().isEqual(LocalDate.now());
     }
+
+    @Override
+    public String toString() {
+        return "Order id: " + orderNumber + " , Customer: " + customerName + " , PickupTime: " + pickupTime;
+    }
 }
 
