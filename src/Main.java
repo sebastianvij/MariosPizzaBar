@@ -1,8 +1,6 @@
-import Menu.PizzaMenuList;
 import Products.Pizza;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -11,6 +9,7 @@ import static Menu.PizzaMenuList.pizzaList;
 
 public class Main {
     public static List<Order> orderList = new ArrayList<>();
+    public static List<OrderArchive> orderArchiveList = new ArrayList<>();
     private static final int DEFAULT_ORDER_DELAY_IN_MINUTES = 15;
 
     public static void main(String[] args) {
@@ -233,6 +232,27 @@ public class Main {
                     break;
                 case 4: // Færdiggør Ordre
 
+                    System.out.println("> OrdreListe");
+                    for (int i = 0; i < orderList.size(); i++) {
+                        Order orderListing = orderList.get(i);
+                        System.out.println(orderListing);
+                    }
+
+                    System.out.println("Indtast ordre nummer, på den ordre du ønsker at færdiggøre:");
+                    int orderIndex = scanner.nextInt() - 1;
+                    scanner.nextLine();
+
+
+                    Order completedOrder = orderList.remove(orderIndex);
+                    System.out.println("Er ordren betalt?");
+                    System.out.println("Indtast '0' hvis ordren er betalt");
+                    System.out.println("Indtast '1' hvis ordren ikke er betalt");
+                    int paidInput = scanner.nextInt();
+                    boolean isPaid = paidInput == 0;
+                    OrderArchive orderArchive = new OrderArchive(completedOrder, isPaid, false);
+                    orderArchiveList.add(orderArchive);
+                    System.out.println("Bestillingen gemt: " + completedOrder);
+
                     break;
                 case 5: // Vis Ordreliste
                     System.out.println("> OrdreListe");
@@ -252,6 +272,10 @@ public class Main {
                     System.out.println("-*- Menukort -*-");
                     break;
                 case 7: // Vis Ordrehistorik
+                    for (OrderArchive orderArchive1 : orderArchiveList) {
+                        Order order1 = orderArchive1.getOrderArchive();
+                        System.out.println("Ordre: " + order1.getOrderNumber() + ", blev hentet: " + order1.getPickupTime());
+                    }
 
                     break;
                 case 8: // Vis Statistik
