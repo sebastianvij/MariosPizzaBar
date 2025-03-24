@@ -3,6 +3,7 @@ package Menu;
 import Products.Pizza;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PizzaMenuList {
 
@@ -13,7 +14,7 @@ public class PizzaMenuList {
         pizzaList.add(new Pizza("Vesuvio", 60, 2, new String[]{"Tomatsauce", "Mozzarella", "Skinke"}));
         pizzaList.add(new Pizza("Hawaii", 65, 3, new String[]{"Tomatsauce", "Mozzarella", "Skinke", "Ananas"}));
         pizzaList.add(new Pizza("Pepperoni", 62, 4, new String[]{"Tomatsauce", "Mozzarella", "Pepperoni"}));
-        pizzaList.add(new Pizza("Kebabpizza", 70, 5, new String[]{"Tomatsauce", "Mozzarella", "Kebabkød", "Løg", "Salat", "Dressing"}));
+        pizzaList.add(new Pizza("Kebabpizza", 70, 5, new String[]{"Tomatsauce", "Mozzarella", "Kebab", "Løg", "Salat", "Dressing"}));
         pizzaList.add(new Pizza("Buffalo", 66, 6, new String[]{"Tomatsauce", "Mozzarella", "Buffalo Mozzarella", "Basilikum"}));
         pizzaList.add(new Pizza("Parma", 75, 7, new String[]{"Tomatsauce", "Mozzarella", "Parmaskinke", "Rucola", "Parmesan"}));
         pizzaList.add(new Pizza("BBQ Kylling", 72, 8, new String[]{"BBQ-sauce", "Mozzarella", "Kylling", "Løg", "Bacon"}));
@@ -40,15 +41,26 @@ public class PizzaMenuList {
         pizzaList.add(new Pizza("Sushi Pizza", 90, 29, new String[]{"Risbund", "Laks", "Avocado", "Agurk", "Soyasauce", "Wasabi"}));
         pizzaList.add(new Pizza("Dessert Pizza", 72, 30, new String[]{"Vaniljesauce", "Marcipan", "Jordbær", "Hindbær", "Flormelis"}));
     }
-    // Vi skal have en "Show pizza list" metode
-    public static void ShowPizzaList() {
-        System.out.println("Available pizzas:");
+
+    public static void ShowPizzaMenuList() {
+        System.out.println("-*- Menukort -*-");
+        System.out.printf("%-4s %-20s %-73s %6s %5s \n", "#", "Navn", "Ingredienser", "Medium", "Stor");
+        System.out.println("--------------------------------------------------------------------------------------------------");
         for (Pizza pizza : pizzaList) {
-            System.out.println(pizza);
+            System.out.printf("%-4d %-20s %-73s %6d,- %5d,- \n", pizza.getPizzaNum(), pizza.getName(), Arrays.toString(pizza.getPizzaToppings()), pizza.getPrice(), (pizza.getPrice() +30));
         }
-
+        System.out.println("-*- Menukort -*-");
     }
-
+    /*
+    Formatting 101
+    Printf bruges til formatting
+    Komma bliver registreret som en seperator og laver automatisk + ' '
+    Uden bindestreg = højrejustering
+    Med bindestreg = venstrejustering
+    %s bruges til strings
+    %d bruges til integers
+    Pizza fylder 5 tegn, %10s ville gøre at feltet er 10 tegn bredt og pizza er højrejusteret.
+     */
 
     // Vi skal have en "Add pizza to pizza list" metode
 }

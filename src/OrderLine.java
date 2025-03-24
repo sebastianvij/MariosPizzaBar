@@ -1,7 +1,14 @@
+import GAMMEL.MainGAMMEL;
+import GAMMEL.OrderLineGAMMEL;
 import Products.Pizza;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import static Menu.PizzaMenuList.ShowPizzaMenuList;
+import static Menu.PizzaMenuList.pizzaList;
+
 public class OrderLine {
-    // Det er her man er igang med at lave sin ordre. UnitPrice og quantity skal være variabler i denne klasse.
 
     private Pizza pizza;
     private String size;
@@ -53,12 +60,22 @@ public class OrderLine {
         return pizza.getPrice() * quantity;
     }
 
-    // ArrayList
-    // {orderlist 1, orderlist 2}
-    // {3, 1, normal, 60}
-    // {6, 2, normal, 58}
-    //
+    public static OrderLine createOrderLine(Scanner scanner) {
 
+        while (true) {
+            System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
 
+            int pizzaNumber = scanner.nextInt();
 
+            Pizza pizza = pizzaList.get(pizzaNumber - 1);
+
+            System.out.println("Størrelse");
+
+            String pizzaSize = scanner.nextLine();
+
+            System.out.println("Antal");
+
+            int quantity = scanner.nextInt();
+        }
+    }
 }
