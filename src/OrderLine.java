@@ -62,7 +62,6 @@ public class OrderLine {
 
     public static OrderLine createOrderLine(Scanner scanner) {
 
-        while (true) {
             System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
 
             int pizzaNumber = scanner.nextInt();
@@ -76,6 +75,18 @@ public class OrderLine {
             System.out.println("Antal");
 
             int quantity = scanner.nextInt();
-        }
+            scanner.nextLine();
+
+            int price = pizza.getPrice();
+
+            if (pizzaSize.equalsIgnoreCase("l")) {
+                price += 30;
+            }
+
+            price = price * quantity;
+
+            OrderLine orderLine = new OrderLine(pizza, pizzaSize, quantity, price);
+
+            return orderLine;
     }
 }

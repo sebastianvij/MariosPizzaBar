@@ -23,6 +23,8 @@ public class Main {
             case "1": // Tilføj Ordre
 
                 ArrayList<OrderLine> orderLines = new ArrayList<>();
+
+
                 // Opretter ordreline:
                 // 1. Vælg pizza type
 
@@ -30,8 +32,23 @@ public class Main {
 
                 // 3. Vælg antal
 
-                orderLines.add(new OrderLine())
+                orderLines.add(OrderLine.createOrderLine(scanner));
+
                 // Spørg om man vil tilføje flere pizzaer
+                while (true) {
+                    System.out.println("Tilføj pizzaer tast Ja");
+                    String addPizzaInput = scanner.nextLine();
+
+                    if (addPizzaInput.equalsIgnoreCase("Ja")) {
+                        orderLines.add(OrderLine.createOrderLine(scanner));
+                    } else if (addPizzaInput.equalsIgnoreCase("Nej")) {
+                        break;
+                    } else {
+                        System.out.println("Prøv igen");
+                    }
+                }
+
+                System.out.println(orderLines);
 
                 // Når man er færdig med at bestille pizzaer oprettes orden
                 // 1. Indtast navn
