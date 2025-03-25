@@ -8,39 +8,22 @@ public class Main {
     }
 
     public static void showMainMenu(Scanner scanner) {
-
-        // -*-*- Marios Pizzabar -*-*-");
-        // 1. Tilføj Ordre
-        // 2. Vis Ordreliste - Rediger, Slet, Færdiggør"
-        // 3. Vis Menu
-        // 4. Vis Ordrehistorik" +
-        // 5. Vis Statistik " +
-        // 0. Afslut Program");
+        System.out.println("           -*-*- Marios Pizzabar -*-*-");
+        System.out.println("1. Tilføj Ordre | 2. Vis Aktive Ordrer | 3. Vis Pizzamenu");
+        System.out.println("4. Vis Ordrehistorik | 5. Vis Statistik | 0. Afslut Program");
 
         String input = scanner.nextLine();
-
         switch (input) {
             case "1": // Tilføj Ordre
+                ArrayList<OrderLine> orderLineArrayList = new ArrayList<>();
+                orderLineArrayList.add(OrderLine.createOrderLine(scanner));
 
-                ArrayList<OrderLine> orderLines = new ArrayList<>();
-
-
-                // Opretter ordreline:
-                // 1. Vælg pizza type
-
-                // 2. Vælg størrelse
-
-                // 3. Vælg antal
-
-                orderLines.add(OrderLine.createOrderLine(scanner));
-
-                // Spørg om man vil tilføje flere pizzaer
                 while (true) {
-                    System.out.println("Tilføj pizzaer tast Ja");
+                    System.out.println("> Vil du tilføje flere pizzaer? ");
                     String addPizzaInput = scanner.nextLine();
 
                     if (addPizzaInput.equalsIgnoreCase("Ja")) {
-                        orderLines.add(OrderLine.createOrderLine(scanner));
+                        orderLineArrayList.add(OrderLine.createOrderLine(scanner));
                     } else if (addPizzaInput.equalsIgnoreCase("Nej")) {
                         break;
                     } else {
@@ -48,15 +31,14 @@ public class Main {
                     }
                 }
 
-                System.out.println(orderLines);
+                Order.createOrder(scanner, orderLineArrayList);
 
-                // Når man er færdig med at bestille pizzaer oprettes orden
-                // 1. Indtast navn
-                // 2. Indtast afhentningstidspunkt
-                // 3. Indtast yderlige kommentarer
+                showMainMenu(scanner);
+                break;
 
-                // Så printer den den fulde ordre med alle oplysninger
-                // Så gemmes ordren i ordre arkiv
+            case "2": // Vis Odreliste: Rediger/Slet/Afslut
+                OrderArchive.showActiveOrders(scanner);
+                showMainMenu(scanner);
 
         }
     }

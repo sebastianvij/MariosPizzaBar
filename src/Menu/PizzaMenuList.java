@@ -47,7 +47,7 @@ public class PizzaMenuList {
         System.out.printf("%-4s %-20s %-73s %6s %5s \n", "#", "Navn", "Ingredienser", "Medium", "Stor");
         System.out.println("--------------------------------------------------------------------------------------------------");
         for (Pizza pizza : pizzaList) {
-            System.out.printf("%-4d %-20s %-73s %6d,- %5d,- \n", pizza.getPizzaNum(), pizza.getName(), Arrays.toString(pizza.getPizzaToppings()), pizza.getPrice(), (pizza.getPrice() +30));
+            System.out.printf("%-4d %-20s %-73s %6d,- %5d,- \n", pizza.getPizzaNum(), pizza.getName(), Arrays.toString(pizza.getPizzaToppings()), pizza.getUnitPrice(), (pizza.getUnitPrice() + 30));
         }
         System.out.println("-*- Menukort -*-");
     }

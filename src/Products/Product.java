@@ -2,29 +2,27 @@ package Products;
 
 public class Product {
     private String name;
-    private int price;
+    private int unitPrice;
 
     // Constructor
-    public Product(String name, int price) {
+    public Product(String name, int unitPrice) {
         this.name = name;
-        this.price = price;
+        this.unitPrice = unitPrice;
     }
 
     // Settere og Gettere
     public void setName(String name) {
         this.name = name;
     }
-
     public String getName() {
         return name;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setUnitPrice(int unitPrice) {
+        this.unitPrice = unitPrice;
     }
-
-    public int getPrice() {
-        return price;
+    public int getUnitPrice() {
+        return unitPrice;
     }
 }
 

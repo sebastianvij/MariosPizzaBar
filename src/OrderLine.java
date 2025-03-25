@@ -1,11 +1,7 @@
-import GAMMEL.MainGAMMEL;
-import GAMMEL.OrderLineGAMMEL;
 import Products.Pizza;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-import static Menu.PizzaMenuList.ShowPizzaMenuList;
 import static Menu.PizzaMenuList.pizzaList;
 
 public class OrderLine {
@@ -57,7 +53,7 @@ public class OrderLine {
     }
 
     public int getOrderLineTotalPrice() {
-        return pizza.getPrice() * quantity;
+        return pizza.getUnitPrice() * quantity;
     }
 
     public static OrderLine createOrderLine(Scanner scanner) {
@@ -65,6 +61,7 @@ public class OrderLine {
             System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
 
             int pizzaNumber = scanner.nextInt();
+            scanner.nextLine();
 
             Pizza pizza = pizzaList.get(pizzaNumber - 1);
 
@@ -77,15 +74,15 @@ public class OrderLine {
             int quantity = scanner.nextInt();
             scanner.nextLine();
 
-            int price = pizza.getPrice();
+            int unitPrice = pizza.getUnitPrice();
 
             if (pizzaSize.equalsIgnoreCase("l")) {
-                price += 30;
+                unitPrice += 30;
             }
 
-            price = price * quantity;
+            int totalPrice = unitPrice * quantity;
 
-            OrderLine orderLine = new OrderLine(pizza, pizzaSize, quantity, price);
+            OrderLine orderLine = new OrderLine(pizza, pizzaSize, quantity, totalPrice);
 
             return orderLine;
     }
