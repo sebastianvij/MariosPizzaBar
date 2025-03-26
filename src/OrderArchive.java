@@ -16,7 +16,6 @@ public class OrderArchive {
     }
 
     public static void showActiveOrders(Scanner scanner) {
-
         if (orderArchive.isEmpty()) {
             System.out.println("Der er ingen aktive ordre");
             return;
@@ -145,7 +144,7 @@ public class OrderArchive {
                 showFinishedOrders();
                 break;
             case 5:
-                statisticsMenu(scanner);
+                showStatisticsMenu(scanner);
                 break;
             case 6: //
         }
@@ -160,7 +159,7 @@ public class OrderArchive {
         }
     }
 
-    public static void statisticsMenu(Scanner scanner) {
+    public static void showStatisticsMenu(Scanner scanner) {
         System.out.println("Tast 1 for at se den totale omsætning");
         System.out.println("Tast 2 for at se den mest populære pizza");
         int input = scanner.nextInt();
@@ -183,7 +182,7 @@ public class OrderArchive {
             }
         }
         System.out.println("Den totale omsætning er: " + revenue);
-        System.out.println("Tryk '0' for at gå tilbage til menuen");
+        System.out.println("> 0. Returner til hovedmenu");
         int input = scanner.nextInt();
         scanner.nextLine();
 
@@ -221,7 +220,7 @@ public class OrderArchive {
             return;
         }
         System.out.println("Den most populære pizza er: " + mostPopularPizza.getName() + " Antal gange købt: " + maxCount);
-        System.out.println("Tryk '0' for at gå tilbage til menuen");
+        System.out.println("> 0. Returner til hovedmenu");
         int input = scanner.nextInt();
         scanner.nextLine();
 
