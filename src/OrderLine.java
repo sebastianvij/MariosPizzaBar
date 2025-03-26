@@ -107,7 +107,8 @@ public class OrderLine {
         int quantity;
         while (true) {
             System.out.println("Indtast hvilket antal du vil have");
-            System.out.println("> 0. 'Returner til menu'");
+            System.out.println("> 1-99. 'Antal pizzaer' ");
+            System.out.println("> 0.    'Returner til menu'");
 
             quantity = scanner.nextInt();
             scanner.nextLine();
@@ -118,11 +119,9 @@ public class OrderLine {
                 break;
             }
         }
-
         // Kalkuler total pris og skab pizza med førangivne værdier
         int unitPrice = pizza.getUnitPrice();
         int totalPrice = unitPrice * quantity;
-
         return new OrderLine(pizza, pizzaSize, quantity, totalPrice);
     }
 }

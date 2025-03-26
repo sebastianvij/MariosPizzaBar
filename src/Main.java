@@ -21,26 +21,26 @@ public class Main {
                 orderLineArrayList.add(OrderLine.createOrderLine(scanner));
 
                 while (true) {
-                    System.out.println("Vil du tilføje flere pizzaer? ");
-                    System.out.println("> 1.  ");
-                    System.out.println("> Tast '0' ");
-                    String addPizzaInput = scanner.nextLine();
+                    System.out.println("Vil du tilføje flere pizzaer?");
+                    System.out.println("> 1. 'Tilføj flere");
+                    System.out.println("> 0. 'Færdiggør bestilling'");
+                    int addPizzaInput = scanner.nextInt();
+                    scanner.nextLine();
 
-                    if (addPizzaInput.equalsIgnoreCase("Ja")) {
+                    if (addPizzaInput == 1) {
                         orderLineArrayList.add(OrderLine.createOrderLine(scanner));
-                    } else if (addPizzaInput.equalsIgnoreCase("Nej")) {
+                    } else if (addPizzaInput == 0) {
                         break;
                     } else {
-                        System.out.println("Prøv igen");
+                        System.out.println("Ugyldigt input! Prøv igen");
                     }
                 }
-
                 Order.createOrder(scanner, orderLineArrayList);
 
                 showMainMenu(scanner);
                 break;
 
-            case "2": // Vis Odreliste: Rediger/Slet/Afslut
+            case "2": // Vis Odreliste (Rediger/Slet/Afslut)
                 OrderArchive.showActiveOrders(scanner);
                 showMainMenu(scanner);
                 break;
@@ -50,10 +50,18 @@ public class Main {
                 showMainMenu(scanner);
                 break;
 
-            case "5": // Vis totale omsætning
-                OrderArchive.showRevenue(scanner);
-                showMainMenu(scanner);
+            case "4": // Ordrehistorik
+                OrderArchive.showFinishedOrders();
+                break;
 
+            case "5": // Vis totale omsætning og stats
+                OrderArchive.statisticsMenu(scanner);
+                showMainMenu(scanner);
+                break;
+
+            default:
+                System.out.println("Ugyldigt input! Prøv igen");
+                showMainMenu(scanner);
         }
     }
 }
