@@ -27,20 +27,24 @@ public class Main {
 
                 while (true) {
                     System.out.println("Vil du tilføje flere pizzaer?");
-                    System.out.println("> 1. 'Tilføj flere");
-                    System.out.println("> 0. 'Færdiggør bestilling'");
-                    int addPizzaInput = scanner.nextInt();
-                    scanner.nextLine();
+                    System.out.println("> 1. Tilføj flere pizzaer");
+                    System.out.println("> 2. Færdiggør bestilling");
+                    System.out.println("> 0. Annuller ordre");
 
-                    if (addPizzaInput == 1) {
+                    String addPizzaInput = scanner.nextLine();
+
+                    if (addPizzaInput.equals("1")) {
                         orderLineArrayList.add(OrderLine.createOrderLine(scanner));
-                    } else if (addPizzaInput == 0) {
+                    } else if (addPizzaInput.equals("2")) {
+                        Order.createOrder(scanner, orderLineArrayList);
                         break;
+                    } else if (addPizzaInput.equals("0")) {
+                        System.out.println("Ordre annulleret");
+                        showMainMenu(scanner);
                     } else {
                         System.out.println("Ugyldigt input! Prøv igen");
                     }
                 }
-                Order.createOrder(scanner, orderLineArrayList);
                 break;
 
             case "2": // Vis Ordreliste (Rediger/Annuller/Færdiggør)
@@ -55,8 +59,8 @@ public class Main {
                 OrderArchive.showFinishedOrders();
                 break;
 
-            case "5": // Vis totale omsætning og stats
-                OrderArchive.statisticsMenu(scanner);
+            case "5": // Vis Statistik (Omsætning/Mest Populære Pizza)
+                OrderArchive.showStatisticsMenu(scanner);
                 break;
 
             default:
