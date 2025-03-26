@@ -1,7 +1,5 @@
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -85,7 +83,7 @@ public class Order {
     public int getOrderTotalPrice() {
         int totalPrice = 0;
         for (OrderLine orderLine : orderLines) {
-            totalPrice += orderLine.getOrderLineTotalPrice();
+            totalPrice += orderLine.calculateOrderLineTotalPrice(orderLine);
         }
         return totalPrice;
     }
@@ -100,20 +98,20 @@ public class Order {
         int pickupTimeMinutes = LocalDateTime.now().getMinute();
 
         while (true) {
-            pickupTime = LocalDateTime.now().withSecond(0).withNano(0);
-            System.out.println("Hvad tid skal ordren bestilles til? Nuværende tid: " + pickupTimeHour + ":" + pickupTimeMinutes);
-            System.out.println("> 1. 'Hurtigst muligt'");
-            System.out.println("> 2. 'Bestem tidspunkt'");
-            System.out.println("> 0. 'Returner til menu'");
+            int DEFAULT_ORDER_DELAY_IN_MINUTES = 15;
+
+            System.out.println("Hvornår skal ordren afhentes? Nuværende tid: " + pickupTimeHour + ":" + pickupTimeMinutes);
+            System.out.println("> 1. Hurtigst muligt (" + DEFAULT_ORDER_DELAY_IN_MINUTES + " min.)" );
+            System.out.println("> 2. Vælg tidspunkt");
+            System.out.println("> 0. Annuller ordre");
 
             int pickUpInput = scanner.nextInt();
             scanner.nextLine();
 
             if (pickUpInput == 0) {
-                return; // Afbryd metoden
+                System.out.println("Ordre annulleret");
+                Main.showMainMenu(scanner);
             }
-
-            int DEFAULT_ORDER_DELAY_IN_MINUTES = 15;
 
             if (pickUpInput == 1) {
                 pickupTime = LocalDateTime.now().plusMinutes(DEFAULT_ORDER_DELAY_IN_MINUTES);
@@ -178,12 +176,17 @@ public class Order {
                 break;
             }
         }
-
-        System.out.println("Tilføj en kommentar");
+        System.out.println("Indtast en kommentar");
+        System.out.println("> 0. For ikke at tilføje en kommentar");
 
         String customerComment = scanner.nextLine();
 
+        if (customerComment.equals("0")) {
+            customerComment = null;
+        }
         Order order = new Order(orderLines, pickupTime, customerComment);
+        System.out.println("Ordre oprettet! Udskriver kvittering...");
+        System.out.println();
         Order.printReceipt(order);
         OrderArchive.addOrderToArchive(order);
     }
@@ -192,13 +195,13 @@ public class Order {
         System.out.println("Order #" + order.getOrderNumber() + " | Til Afhentning: " + order.getPickupTime().withSecond(0).withNano(0));
         printOrderLines(order);
         System.out.println("Kommentar: " + order.getCustomerComment());
-        System.out.println("Total Price: " + order.getOrderTotalPrice() + " DKK.");
+        System.out.println("Total Price: " + order.getOrderTotalPrice() + " DKK");
     }
 
     public static void printOrderLines(Order order) {
         int count = 1;
         for (OrderLine orderLine : order.getOrderLines()) {
-            System.out.println(count + ". " + orderLine.getQuantity() + "   x   " + orderLine.getSize() + " " + orderLine.getPizza().getName() + "       " + orderLine.getOrderLineTotalPrice() + " DKK");
+            System.out.println(count + ". [" + orderLine.getQuantity() + " x " + orderLine.getSize() + " " + orderLine.getPizza().getName() + " " + orderLine.calculateOrderLineTotalPrice(orderLine) + " DKK]");
             count++;
         }
     }
