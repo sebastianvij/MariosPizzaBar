@@ -1,3 +1,4 @@
+import Menu.PizzaMenuList;
 import Products.Pizza;
 
 import java.util.ArrayList;
@@ -29,7 +30,9 @@ public class OrderArchive {
         Order chosenOrder = orderArchive.get(orderNumber);
         scanner.nextLine();
 
-        System.out.println("Vil du redigere, slette eller afslutte ordren?");
+        System.out.println("Tast 1 for at redigere ordren");
+        System.out.println("Tast 2 for at annullere ordren");
+        System.out.println("Tast 3 for at færdiggøre ordren");
         int input = scanner.nextInt();
         scanner.nextLine();
 
@@ -84,30 +87,35 @@ public class OrderArchive {
                 OrderLine pizza = order.getOrderLines().get(editPizzaSizeChoice - 1);
                 String pizzaSize = pizza.getSize();
 
-                int sizeChoice = scanner.nextInt();
-                scanner.nextLine();
 
                 if (pizzaSize.equalsIgnoreCase("M")) {
                     System.out.println("Den nuværende pizza er medium størrelse. Vil du gerne ændre til Large?");
+                    int sizeChoice = scanner.nextInt();
                     scanner.nextLine();
                     if (sizeChoice == 1) {
-                        pizza.setSize("L");
+                        pizza.setSize("l");
                     } else if (sizeChoice == 0) {
                         break;
                     }
                 } else {
                     System.out.println("Den nuværende pizza er large størrelse. Vil du gerne ændre til Medium?");
+                    int sizeChoice = scanner.nextInt();
+                    scanner.nextLine();
                     if (sizeChoice == 1) {
-                        pizza.setSize("M");
+                        pizza.setSize("m");
                     } else if (sizeChoice == 0) {
                         break;
                     }
                 }
-                System.out.println("Størrelsen er ændret til" + pizzaSize);
+                System.out.println("Størrelsen er ændret til: " + order.getOrderLines().get(editPizzaSizeChoice).getSize());
                 break;
 
-            case 4: //
-            case 5: //
+            case 4:
+                showFinishedOrders();
+                break;
+            case 5:
+                statisticsMenu(scanner);
+                break;
             case 6: //
         }
     }
@@ -120,4 +128,62 @@ public class OrderArchive {
             }
         }
     }
+
+    public static void statisticsMenu(Scanner scanner) {
+        System.out.println("Tast 1 for at se den totale omsætning");
+        System.out.println("Tast 2 for at se den mest populære pizza");
+        int input = scanner.nextInt();
+        if (input == 1) {
+            showRevenue(scanner);
+        } else if (input == 2) {
+            showMostPopularPizza();
+        } else {
+            System.out.println("Prøv igen");
+        }
+    }
+
+    public static void showRevenue(Scanner scanner) {
+        int revenue = 0;
+        for (Order order : orderArchive) {
+            if (order.isPaid() && !order.isActive()) {
+                revenue += order.getOrderTotalPrice();
+            }
+        }
+        System.out.println("Den totale omsætning er: " + revenue);
+        System.out.println("Tryk '0' for at gå tilbage til menuen");
+        int input = scanner.nextInt();
+        scanner.nextLine();
+
+        if (input == 0) {
+        Main.showMainMenu(scanner);
+        } else {
+            System.out.println("Prøv igen");
+        }
+
+    }
+    public static Order showMostPopularPizza() {
+
+        Order mostPopularPizza = null;
+        int maxCount = 0;
+
+        for (int i = 0; i < orderArchive.size(); i++) {
+            Order pizza = orderArchive.get(i);
+            int count = 0;
+
+        for (int j = 0; j < orderArchive.size(); j++) {
+            if (orderArchive.get(j) == pizza) {
+                count++;
+            }
+        }
+            // Hvis pizzaen er mere populær end den nuværende, opdater
+            if (count > maxCount) {
+                maxCount = count;
+                mostPopularPizza = pizza;
+            }
+        }
+        return mostPopularPizza;
+    }
+
+
+
 }

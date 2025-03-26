@@ -1,3 +1,5 @@
+import Menu.PizzaMenuList;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,7 +21,9 @@ public class Main {
                 orderLineArrayList.add(OrderLine.createOrderLine(scanner));
 
                 while (true) {
-                    System.out.println("> Vil du tilføje flere pizzaer? ");
+                    System.out.println("Vil du tilføje flere pizzaer? ");
+                    System.out.println("> 1.  ");
+                    System.out.println("> Tast '0' ");
                     String addPizzaInput = scanner.nextLine();
 
                     if (addPizzaInput.equalsIgnoreCase("Ja")) {
@@ -38,6 +42,16 @@ public class Main {
 
             case "2": // Vis Odreliste: Rediger/Slet/Afslut
                 OrderArchive.showActiveOrders(scanner);
+                showMainMenu(scanner);
+                break;
+
+            case "3": //Vis menu
+                PizzaMenuList.showPizzaMenuList();
+                showMainMenu(scanner);
+                break;
+
+            case "5": // Vis totale omsætning
+                OrderArchive.showRevenue(scanner);
                 showMainMenu(scanner);
 
         }

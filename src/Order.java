@@ -120,7 +120,7 @@ public class Order {
     public static void printOrderLines(Order order) {
         int count = 1;
         for (OrderLine orderLine : order.getOrderLines()) {
-            System.out.println(count + ". " + orderLine.getQuantity() + "   x   " + orderLine.getSize() + " " + orderLine.getPizza().getName() + "       " + orderLine.getPizza().getUnitPrice() * orderLine.getQuantity());
+            System.out.println(count + ". " + orderLine.getQuantity() + "   x   " + orderLine.getSize() + " " + orderLine.getPizza().getName() + "       " + orderLine.getOrderLineTotalPrice());
             count++;
         }
     }
@@ -136,4 +136,6 @@ public class Order {
         printOrderLines(order);
         System.out.println("Total Price: " + order.getOrderTotalPrice() + " kr.");
     }
+
+
 }

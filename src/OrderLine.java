@@ -1,3 +1,4 @@
+import Menu.PizzaMenuList;
 import Products.Pizza;
 
 import java.util.Scanner;
@@ -57,33 +58,72 @@ public class OrderLine {
     }
 
     public static OrderLine createOrderLine(Scanner scanner) {
+        PizzaMenuList.showPizzaMenuList();
 
-            System.out.println("> Indtast '1 - " + pizzaList.size() + "' for at vælge pizza");
+        // Vælger pizza
+        Pizza pizza;
+        while (true) {
+            System.out.println("Indtast pizzanummer '1 - " + pizzaList.size() + "' for at vælge pizza");
+            System.out.println("> 0. 'Returner til menu'");
 
-            int pizzaNumber = scanner.nextInt();
+            int pizzaNumberInput = scanner.nextInt();
             scanner.nextLine();
 
-            Pizza pizza = pizzaList.get(pizzaNumber - 1);
-
-            System.out.println("Størrelse");
-
-            String pizzaSize = scanner.nextLine();
-
-            System.out.println("Antal");
-
-            int quantity = scanner.nextInt();
-            scanner.nextLine();
-
-            int unitPrice = pizza.getUnitPrice();
-
-            if (pizzaSize.equalsIgnoreCase("l")) {
-                unitPrice += 30;
+            if (pizzaNumberInput == 0) {
+                Main.showMainMenu(scanner);
+            } else if (pizzaNumberInput > 0 && pizzaNumberInput < pizzaList.size() + 1) {
+                pizza = pizzaList.get(pizzaNumberInput - 1);
+                break;
+            } else {
+                System.out.println("Ugyldigt input! Prøv igen");
             }
+        }
 
-            int totalPrice = unitPrice * quantity;
+        // Vælger pizzastørrelse
+        String pizzaSize;
+        while (true) {
+            System.out.println("Hvilken størrelse vil du gerne vælge?");
+            System.out.println("> 1. 'Medium'");
+            System.out.println("> 2. 'Large'");
+            System.out.println("> 0. 'Returner til menu'");
 
-            OrderLine orderLine = new OrderLine(pizza, pizzaSize, quantity, totalPrice);
+            int pizzaSizeInput = scanner.nextInt();
+            scanner.nextLine();
 
-            return orderLine;
+            if (pizzaSizeInput == 1) {
+                pizzaSize = "m";
+                break;
+            } else if (pizzaSizeInput == 2) {
+                pizzaSize = "l";
+                break;
+            } else if (pizzaSizeInput == 0) {
+                Main.showMainMenu(scanner);
+            } else {
+                System.out.println("Ugyldigt input! Prøv igen");
+            }
+        }
+
+        // Vælger antal pizza
+        int quantity;
+        while (true) {
+            System.out.println("Indtast hvilket antal du vil have");
+            System.out.println("> 0. 'Returner til menu'");
+
+            quantity = scanner.nextInt();
+            scanner.nextLine();
+
+            if (quantity == 0) {
+                Main.showMainMenu(scanner);
+            } else {
+                break;
+            }
+        }
+
+        // Kalkuler total pris og skab pizza med førangivne værdier
+        int unitPrice = pizza.getUnitPrice();
+        int totalPrice = unitPrice * quantity;
+
+        return new OrderLine(pizza, pizzaSize, quantity, totalPrice);
     }
 }
+
