@@ -9,13 +9,18 @@ public class Main {
         showMainMenu(scanner);
     }
 
+    // Kører i ring for evigt. Stoppes først når man afslutter programmet '0'
     public static void showMainMenu(Scanner scanner) {
         System.out.println("           -*-*- Marios Pizzabar -*-*-");
-        System.out.println("1. Tilføj Ordre | 2. Vis Aktive Ordrer | 3. Vis Pizzamenu");
+        System.out.println("1. Tilføj Ordre | 2. Vis Ordreliste | 3. Vis Pizzamenu");
         System.out.println("4. Vis Ordrehistorik | 5. Vis Statistik | 0. Afslut Program");
 
         String input = scanner.nextLine();
         switch (input) {
+            case "0": // Afslut Program
+                System.out.println("Afslutter program...");
+                return;
+
             case "1": // Tilføj Ordre
                 ArrayList<OrderLine> orderLineArrayList = new ArrayList<>();
                 orderLineArrayList.add(OrderLine.createOrderLine(scanner));
@@ -36,18 +41,14 @@ public class Main {
                     }
                 }
                 Order.createOrder(scanner, orderLineArrayList);
-
-                showMainMenu(scanner);
                 break;
 
-            case "2": // Vis Odreliste (Rediger/Slet/Afslut)
+            case "2": // Vis Ordreliste (Rediger/Annuller/Færdiggør)
                 OrderArchive.showActiveOrders(scanner);
-                showMainMenu(scanner);
                 break;
 
-            case "3": //Vis menu
+            case "3": // Vis Pizzamenu
                 PizzaMenuList.showPizzaMenuList();
-                showMainMenu(scanner);
                 break;
 
             case "4": // Ordrehistorik
@@ -56,12 +57,11 @@ public class Main {
 
             case "5": // Vis totale omsætning og stats
                 OrderArchive.statisticsMenu(scanner);
-                showMainMenu(scanner);
                 break;
 
             default:
                 System.out.println("Ugyldigt input! Prøv igen");
-                showMainMenu(scanner);
         }
+        showMainMenu(scanner);
     }
 }
