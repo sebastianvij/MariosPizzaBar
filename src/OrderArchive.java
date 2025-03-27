@@ -43,42 +43,55 @@ public class OrderArchive {
         Order chosenOrder;
         while (true) {
             System.out.println("Hvilken ordre vil du redigere?");
-            System.out.println("> 0. 'Returner til menu'");
+            System.out.println("> Indtast ordrenummer for at redigere ordre");
+            System.out.println("> 0. Returner til hovedmenu");
 
-            int orderEditChoice = scanner.nextInt() - 1;
-            scanner.nextLine();
+            String input =  scanner.nextLine();
 
             if (input.equals("0")) {
                 Main.showMainMenu(scanner);
             }
-
-            if (orderEditChoice < 0 || orderEditChoice >= orderArchive.size() || !orderArchive.get(orderEditChoice).isActive()) {
-                System.out.println("Ordre kan ikke findes, prøv igen.");
-            } else {
-                chosenOrder = orderArchive.get(orderEditChoice);
-                break;
+            try {
+                int orderEditChoice = Integer.parseInt(input);
+                if (orderEditChoice < 0 || orderEditChoice >= orderArchive.size() || !orderArchive.get(orderEditChoice).isActive()) {
+                    System.out.println("Ordre kan ikke findes! Prøv igen");
+                } else {
+                    chosenOrder = orderArchive.get(orderEditChoice - 1);
+                    System.out.println("Ordre med ordrenummer: " + chosenOrder.getOrderNumber() + "# valgt");
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Ugyldigt input! Prøv igen");
             }
         }
-        System.out.println("Tast 1 for at redigere ordren");
-        System.out.println("Tast 2 for at annullere ordren");
-        System.out.println("Tast 3 for at færdiggøre ordren");
-        int input = scanner.nextInt();
-        scanner.nextLine();
+
+        System.out.println("> 1. Redigerer ordre");
+        System.out.println("> 2. Annuller ordre");
+        System.out.println("> 3. Færdiggør ordre");
+        System.out.println("> 0. Returner til hovedmenu");
+
+        String input = scanner.nextLine();
 
         switch (input) {
-            case 1: // Edit Order
+            case "1": // Edit Order
                 editOrder(scanner, chosenOrder);
                 break;
 
-            case 2: // Cancel Order
+            case "2": // Cancel Order
                 chosenOrder.cancelOrder();
                 System.out.println("Du har annulleret ordren");
                 break;
 
-            case 3: // Finish Order
+            case "3": // Finish Order
                 chosenOrder.setComplete();
                 System.out.println("Du har færdiggjort ordren");
                 break;
+
+            case "0": // Returner til hovedmenu
+                Main.showMainMenu(scanner);
+
+            default:
+                System.out.println("Ugyldigt input! Prøv igen");
         }
     }
 
@@ -86,60 +99,105 @@ public class OrderArchive {
 
         System.out.println("Hvilken handling vil du gennemføre?");
         System.out.println("1. Tilføj pizzaer | 2. Fjern pizza | 3. Ændre pizzastørrelse");
-        System.out.println("4. Tilføj kommentar | 5. Ændre afhentningstidspunkt");
+        System.out.println("4. Tilføj kommentar | 5. Ændr afhentningstidspunkt | 0. Returner til hovedmenu");
 
-        int input = scanner.nextInt();
-        scanner.nextLine();
+        String input = scanner.nextLine();
 
         switch (input) {
-            case 1: // Tilføj pizza
+            case "1": // Tilføj pizza
                 order.getOrderLines().add(OrderLine.createOrderLine(scanner));
                 Order.printReceipt(order);
                 break;
 
-            case 2: // Fjern pizza
-                System.out.println("> Hvilken pizza vil du fjerne?");
-                Order.printOrderLines(order);
-                int removePizzaChoice = scanner.nextInt();
-                scanner.nextLine();
+            case "2": // Fjern pizza
+                while (true) {
+                    System.out.println("Hvilken pizza vil du fjerne?");
+                    Order.printOrderLines(order);
+                    System.out.println("> Indtast linjenummer for at fjerne pizza");
+                    System.out.println("> 0. Returner til hovedmenu");
 
-                order.getOrderLines().remove(removePizzaChoice - 1);
+                    String input1 = scanner.nextLine();
 
-                System.out.println("> Du har fjernet en pizza fra ordren"); // Skal den kunne finde den specifikke pizza?
-                break;
-
-            case 3: // Ændre pizzastørrelse
-                System.out.println("> Hvilken pizza vil du ændre størrelse på?");
-                Order.printOrderLines(order);
-
-                int editPizzaSizeChoice = scanner.nextInt();
-                scanner.nextLine();
-
-                OrderLine pizza = order.getOrderLines().get(editPizzaSizeChoice - 1);
-                String pizzaSize = pizza.getSize();
-
-
-                if (pizzaSize.equalsIgnoreCase("M")) {
-                    System.out.println("Den nuværende pizza er medium størrelse. Vil du gerne ændre til Large?");
-                    int sizeChoice = scanner.nextInt();
-                    scanner.nextLine();
-                    if (sizeChoice == 1) {
-                        pizza.setSize("l");
-                    } else if (sizeChoice == 0) {
-                        break;
+                    if (input1.equals("0")) {
+                        Main.showMainMenu(scanner);
                     }
-                } else {
-                    System.out.println("Den nuværende pizza er large størrelse. Vil du gerne ændre til Medium?");
-                    int sizeChoice = scanner.nextInt();
-                    scanner.nextLine();
-                    if (sizeChoice == 1) {
-                        pizza.setSize("m");
-                    } else if (sizeChoice == 0) {
-                        break;
+                    try {
+                        int removePizzaChoice = Integer.parseInt(input1);
+                        if (removePizzaChoice > 0 && removePizzaChoice <= order.getOrderLines().size()) {
+                            System.out.println("Du har fjernet linjenummer " + input1 + " fra ordren");
+                            order.getOrderLines().remove(removePizzaChoice - 1);
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ugyldigt input! Prøv igen.");
                     }
                 }
-                System.out.println("Størrelsen er ændret til: " + order.getOrderLines().get(editPizzaSizeChoice).getSize());
                 break;
+
+            case "3": // Ændre pizzastørrelse
+                while (true) {
+                    System.out.println("Hvilken pizza vil du ændre størrelse på?");
+                    Order.printOrderLines(order);
+                    System.out.println("> Indtast linjenummer for at ændre pizzastørrelse");
+                    System.out.println("> 0. Returner til hovedmenu");
+
+                    String input1 = scanner.nextLine();
+                    int editPizzaSizeChoice = 0;
+
+                    if (input1.equals("0")) {
+                        Main.showMainMenu(scanner);
+                        return;
+                    }
+
+                    try {
+                        editPizzaSizeChoice = Integer.parseInt(input1);
+                        if (editPizzaSizeChoice > 0 && editPizzaSizeChoice <= order.getOrderLines().size()) {
+                            System.out.println("Du har valgt at ændre linjenummer " + input1 + "'s størrelse");
+                            OrderLine pizza = order.getOrderLines().get(editPizzaSizeChoice - 1);
+                            String pizzaSize = pizza.getSize();
+
+                            if (pizzaSize.equals("medium")) {
+                                while (true) {
+                                    System.out.println("Den nuværende pizza er medium størrelse. Vil du gerne ændre til large?");
+                                    System.out.println("> 1. Ændr til large");
+                                    System.out.println("> 0. Forbliv medium");
+
+                                    String sizeChoice = scanner.nextLine();
+                                    if (sizeChoice.equals("1")) {
+                                        pizzaSize = "large";
+                                        break;
+                                    } else if (sizeChoice.equals("0")) {
+                                        break;
+                                    } else {
+                                        System.out.println("Ugyldigt input! Prøv igen.");
+                                    }
+                                }
+                            } else {
+                                while (true) {
+                                    System.out.println("Den nuværende pizza er large størrelse. Vil du gerne ændre til medium?");
+                                    System.out.println("> 1. Ændr til medium");
+                                    System.out.println("> 0. Forbliv large");
+
+                                    String sizeChoice = scanner.nextLine();
+                                    if (sizeChoice.equals("1")) {
+                                        pizzaSize = "medium";
+                                        break;
+                                    } else if (sizeChoice.equals("0")) {
+                                        break;
+                                    } else {
+                                        System.out.println("Ugyldigt input! Prøv igen.");
+                                    }
+                                }
+                            }
+                            pizza.setSize(pizzaSize);
+                            System.out.println("Størrelsen er ændret til: " + pizzaSize);
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ugyldigt input! Prøv igen.");
+                    }
+                }
+
 
             case "4": // Tilføj kommentar
                 System.out.println("Tilføj kommentar:");
@@ -150,7 +208,9 @@ public class OrderArchive {
             case "5": // Ændr afhentningstidspunkt
                 order.setPickupTime(Order.setPickUpTime(scanner));
                 break;
-            case 6: //
+
+            case "6": // Returner til hovedmenu
+
         }
     }
 
