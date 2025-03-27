@@ -39,58 +39,67 @@ public class OrderArchive {
             Order.printReceipt(order);
             System.out.println("---------------------------");
         }
-        Order chosenOrder;
+
+        Order chosenOrder = null;
         while (true) {
             System.out.println("Hvilken ordre vil du redigere?");
             System.out.println("> Indtast ordrenummer for at redigere ordre");
             System.out.println("> 0. Returner til hovedmenu");
 
-            String input =  scanner.nextLine();
+            String input = scanner.nextLine();
 
             if (input.equals("0")) {
                 Main.showMainMenu(scanner);
+                return;
             }
+
             try {
-                int orderEditChoice = Integer.parseInt(input);
-                if (orderEditChoice < 0 || orderEditChoice > activeOrders.size()) {
-                    System.out.println("Ordre kan ikke findes! Prøv igen");
-                } else {
-                    chosenOrder = activeOrders.get(orderEditChoice - 1);
-                    System.out.println("Ordre med ordrenummer: #" + chosenOrder.getOrderNumber() + " valgt");
-                    break;
+                int orderNumberEditChoice = Integer.parseInt(input);
+                for (Order order : activeOrders) {
+                    if (order.getOrderNumber() == orderNumberEditChoice) {
+                        chosenOrder = order;
+                        break;
+                    }
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ugyldigt input! Prøv igen");
+                continue;
             }
+
+            if (chosenOrder != null) {
+                System.out.println("Ordre med ordrenummer: #" + chosenOrder.getOrderNumber() + " valgt");
+                break;
+            }
+
+            System.out.println("Ordre kan ikke findes! Prøv igen");
         }
 
-        System.out.println("> 1. Redigerer ordre");
-        System.out.println("> 2. Annuller ordre");
-        System.out.println("> 3. Færdiggør ordre");
-        System.out.println("> 0. Returner til hovedmenu");
+        while (true) {
+            System.out.println("> 1. Rediger ordre");
+            System.out.println("> 2. Annuller ordre");
+            System.out.println("> 3. Færdiggør ordre");
+            System.out.println("> 0. Returner til hovedmenu");
 
-        String input = scanner.nextLine();
+            String input = scanner.nextLine();
 
-        switch (input) {
-            case "1": // Edit Order
-                editOrder(scanner, chosenOrder);
-                break;
-
-            case "2": // Cancel Order
-                chosenOrder.cancelOrder();
-                System.out.println("Du har annulleret ordre #" + chosenOrder.getOrderNumber());
-                break;
-
-            case "3": // Finish Order
-                chosenOrder.setComplete();
-                System.out.println("Du har færdiggjort ordre #" + chosenOrder.getOrderNumber());
-                break;
-
-            case "0": // Returner til hovedmenu
-                Main.showMainMenu(scanner);
-
-            default:
-                System.out.println("Ugyldigt input! Prøv igen");
+            switch (input) {
+                case "1": // Edit Order
+                    editOrder(scanner, chosenOrder);
+                    return;
+                case "2": // Cancel Order
+                    chosenOrder.cancelOrder();
+                    System.out.println("Du har annulleret ordre #" + chosenOrder.getOrderNumber());
+                    return;
+                case "3": // Finish Order
+                    chosenOrder.setComplete();
+                    System.out.println("Du har færdiggjort ordre #" + chosenOrder.getOrderNumber());
+                    return;
+                case "0": // Returner til hovedmenu
+                    Main.showMainMenu(scanner);
+                    return;
+                default:
+                    System.out.println("Ugyldigt input! Prøv igen");
+            }
         }
     }
 
@@ -199,8 +208,8 @@ public class OrderArchive {
 
             case "4": // Tilføj kommentar
                 System.out.println("Tilføj kommentar:");
-                String newCustommerComment = scanner.nextLine();
-                order.setCustomerComment(newCustommerComment);
+                String newCustomerComment = scanner.nextLine();
+                order.setCustomerComment(newCustomerComment);
                 break;
 
             case "5": // Ændr afhentningstidspunkt
@@ -213,7 +222,10 @@ public class OrderArchive {
     }
 
     public static void showFinishedOrders() {
-        System.out.println("> Afsluttede ordrer: ");
+        if (orderArchive.isEmpty()) {
+            System.out.println("Der er ingen afsluttede ordrer");
+        }
+        System.out.println("Afsluttede ordrer:");
         for (Order order : orderArchive) {
             if (!order.isActive() && order.isPaid()) {
                 Order.printReceipt(order);
@@ -239,7 +251,7 @@ public class OrderArchive {
             } else if (input.equals("0")) {
                 break;
             } else {
-                System.out.println("Ugyldigt input! Prøv igen.");
+                System.out.println("Ugyldigt input! Prøv igen");
             }
         }
     }
@@ -278,7 +290,7 @@ public class OrderArchive {
         if (mostPopularPizza == null) {
             System.out.println("Ingen bestillinger er blevet oprettet endnu");
         } else {
-            System.out.println("Den most populære pizza er: " + mostPopularPizza.getName() + "pizza. Den er købt: " + maxCount + " gange");
+            System.out.println("Den most populære pizza er: " + mostPopularPizza.getName() + " pizza. Antal gange købt: " + maxCount);
         }
         Main.returnerTilMainMenuPrompt(scanner);
     }

@@ -41,7 +41,7 @@ public class Main {
                         break;
                     } else if (addPizzaInput.equals("0")) {
                         System.out.println("Ordre annulleret");
-                        showMainMenu(scanner);
+                        returnerTilMainMenuPrompt(scanner);
                     } else {
                         System.out.println("Ugyldigt input! Prøv igen");
                     }
@@ -54,6 +54,7 @@ public class Main {
 
             case "3": // Vis Pizzamenu
                 PizzaMenuList.showPizzaMenuList();
+                returnerTilMainMenuPrompt(scanner);
                 break;
 
             case "4": // Vis Ordrehistorik

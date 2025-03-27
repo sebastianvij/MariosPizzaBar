@@ -98,7 +98,7 @@ public class Order {
         String customerComment = scanner.nextLine();
 
         if (customerComment.equals("0")) {
-            customerComment = null;
+            customerComment = "";
         }
         Order order = new Order(orderLines, pickupTime, customerComment);
         System.out.println("Ordre oprettet! Udskriver kvittering...");
@@ -136,8 +136,8 @@ public class Order {
             } else if (pickUpInput.equals("2")) {
                 while (true) {
                     System.out.println("Skal ordren hentes i dag?");
-                    System.out.println("> 1. 'I dag'");
-                    System.out.println("> 2. 'Vælg anden dag'");
+                    System.out.println("> 1. I dag");
+                    System.out.println("> 2. Vælg anden dag");
                     System.out.println("> 0. Annuller ordre");
 
                     String input = scanner.nextLine();
@@ -152,7 +152,7 @@ public class Order {
                     } else if (input.equals("2")) {
                         while (true) {
                             try {
-                                System.out.println("Indtast ønsket afhentningsdato (dag 1-31): ");
+                                System.out.println("Indtast ønsket afhentningsdato (dag 1-31):");
                                 day = Integer.parseInt(scanner.nextLine());
 
                                 if (day < 1 || day > 31) {
@@ -160,7 +160,7 @@ public class Order {
                                     continue;
                                 }
 
-                                System.out.println("Indtast ønsket måned (1-12): ");
+                                System.out.println("Indtast ønsket måned (1-12):");
                                 month = Integer.parseInt(scanner.nextLine());
 
                                 if (month < 1 || month > 12) {
@@ -168,16 +168,16 @@ public class Order {
                                     continue;
                                 }
 
-                                System.out.println("Indtast ønsket år (20XX): ");
+                                System.out.println("Indtast ønsket år (2025 - 2035):");
                                 year = Integer.parseInt(scanner.nextLine());
 
-                                if (year < LocalDateTime.now().getYear()) {
+                                if (year < 2025 || year > 2035 || year < LocalDateTime.now().getYear()) {
                                     System.out.println("Ugyldigt input! Prøv igen");
                                     continue;
                                 }
 
                                 int maxDaysInMonth = YearMonth.of(year, month).lengthOfMonth();
-                                if (day >= 1 && day <= maxDaysInMonth) {
+                                if (day <= maxDaysInMonth) {
                                     break;
                                 } else {
                                     System.out.println("Ugyldigt input! Prøv igen");
@@ -223,7 +223,7 @@ public class Order {
     }
 
     public static void printReceipt(Order order) {
-        System.out.println("Order #" + order.getOrderNumber() + " | Afhentningstid: " + order.getPickupTime().withSecond(0).withNano(0));
+        System.out.println("Ordrenummer: #" + order.getOrderNumber() + " | Afhentningstid: " + order.getPickupTime().withSecond(0).withNano(0));
         printOrderLines(order);
         System.out.println("Kommentar: " + order.getCustomerComment());
         System.out.println("Total Price: " + order.getOrderTotalPrice() + " DKK");
