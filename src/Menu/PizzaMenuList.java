@@ -46,17 +46,17 @@ public class PizzaMenuList {
 
     public static void showPizzaMenuList() {
         System.out.println("-*- Menukort -*-");
-        System.out.printf("%-4s %-20s %-73s %6s %5s \n", "#", "Navn", "Ingredienser", "Medium", "Stor");
-        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.printf("%-4s %-20s %-68s %6s %5s \n", "#", "Navn", "Ingredienser", "Medium", "Stor");
+        System.out.println("------------------------------------------------------------------------------------------------------------");
         for (Pizza pizza : pizzaList) {
-            System.out.printf("%-4d %-20s %-73s %6d,- %5d,- \n", pizza.getPizzaNum(), pizza.getName(), Arrays.toString(pizza.getPizzaToppings()), pizza.getUnitPrice(), (pizza.getUnitPrice() + DEFAULT_LARGE_SIZE_PRICE_INCREASE));
+            System.out.printf("%-4d %-20s %-65s %6d,- %5d,- \n", pizza.getPizzaNum(), pizza.getName(), Arrays.toString(pizza.getPizzaToppings()), pizza.getUnitPrice(), (pizza.getUnitPrice() + DEFAULT_LARGE_SIZE_PRICE_INCREASE));
         }
         System.out.println("-*- Menukort -*-");
     }
     /*
     Formatting 101
     Printf bruges til formatting
-    Komma bliver registreret som en seperator og laver automatisk + ' '
+    Komma bliver registreret som en seperator og laver automatisk + og mellemrum
     Uden bindestreg = højrejustering
     Med bindestreg = venstrejustering
     %s bruges til strings
