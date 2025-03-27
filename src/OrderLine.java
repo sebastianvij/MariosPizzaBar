@@ -55,7 +55,7 @@ public class OrderLine {
 
     public int calculateUnitPrice(Pizza pizza, String size) {
         if (size.equals("large")) {
-            return pizza.getUnitPrice() * DEFAULT_LARGE_SIZE_PRICE_INCREASE; // Default er 30
+            return pizza.getUnitPrice() + DEFAULT_LARGE_SIZE_PRICE_INCREASE; // Default er 30
         } else {
             return pizza.getUnitPrice();
         }
@@ -85,7 +85,7 @@ public class OrderLine {
             }
             if (input.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.showMainMenu(scanner);
+                Main.returnerTilMainMenuPrompt(scanner);
             }
             try {
                 int pizzaChoice = Integer.parseInt(input);
@@ -115,10 +115,9 @@ public class OrderLine {
                 break;
             } else if (input.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.showMainMenu(scanner);
-            } else {
-                System.out.println("Ugyldigt input! Prøv igen");
+                Main.returnerTilMainMenuPrompt(scanner);
             }
+            System.out.println("Ugyldigt input! Prøv igen");
         }
 
         while (true) {
@@ -130,7 +129,7 @@ public class OrderLine {
 
             if (input.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.showMainMenu(scanner);
+                Main.returnerTilMainMenuPrompt(scanner);
             } else {
                 try {
                     int quantityChoice = Integer.parseInt(input);
@@ -139,14 +138,15 @@ public class OrderLine {
                         break;
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Ugyldigt input! Prøv igen");
+
                 }
             }
+            System.out.println("Ugyldigt input! Prøv igen");
         }
         if (quantity == 1) {
-            System.out.println("Du har tilføjet " + quantity + " " + size + " " + pizza.getName() + " pizza til din ordre!");
+            System.out.println("Du har tilføjet " + quantity + " " + size + " " + pizza.getName() + " pizza til din ordre");
         } else {
-            System.out.println("Du har tilføjet " + quantity + " " + size + " " + pizza.getName() + " pizzaer til din ordre!");
+            System.out.println("Du har tilføjet " + quantity + " " + size + " " + pizza.getName() + " pizzaer til din ordre");
         }
         return new OrderLine(pizza, size, quantity);
     }

@@ -37,9 +37,8 @@ public class OrderArchive {
 
         for (Order order : activeOrders) {
             Order.printReceipt(order);
-            System.out.println();
+            System.out.println("---------------------------");
         }
-
         Order chosenOrder;
         while (true) {
             System.out.println("Hvilken ordre vil du redigere?");
@@ -53,11 +52,11 @@ public class OrderArchive {
             }
             try {
                 int orderEditChoice = Integer.parseInt(input);
-                if (orderEditChoice < 0 || orderEditChoice >= orderArchive.size() || !orderArchive.get(orderEditChoice).isActive()) {
+                if (orderEditChoice < 0 || orderEditChoice > activeOrders.size()) {
                     System.out.println("Ordre kan ikke findes! Prøv igen");
                 } else {
-                    chosenOrder = orderArchive.get(orderEditChoice - 1);
-                    System.out.println("Ordre med ordrenummer: " + chosenOrder.getOrderNumber() + "# valgt");
+                    chosenOrder = activeOrders.get(orderEditChoice - 1);
+                    System.out.println("Ordre med ordrenummer: #" + chosenOrder.getOrderNumber() + " valgt");
                     break;
                 }
             } catch (NumberFormatException e) {
@@ -79,12 +78,12 @@ public class OrderArchive {
 
             case "2": // Cancel Order
                 chosenOrder.cancelOrder();
-                System.out.println("Du har annulleret ordren");
+                System.out.println("Du har annulleret ordre #" + chosenOrder.getOrderNumber());
                 break;
 
             case "3": // Finish Order
                 chosenOrder.setComplete();
-                System.out.println("Du har færdiggjort ordren");
+                System.out.println("Du har færdiggjort ordre #" + chosenOrder.getOrderNumber());
                 break;
 
             case "0": // Returner til hovedmenu
@@ -96,9 +95,8 @@ public class OrderArchive {
     }
 
     public static void editOrder(Scanner scanner, Order order) {
-
         System.out.println("Hvilken handling vil du gennemføre?");
-        System.out.println("1. Tilføj pizzaer | 2. Fjern pizza | 3. Ændre pizzastørrelse");
+        System.out.println("1. Tilføj pizzaer | 2. Fjern pizza | 3. Ændr pizzastørrelse");
         System.out.println("4. Tilføj kommentar | 5. Ændr afhentningstidspunkt | 0. Returner til hovedmenu");
 
         String input = scanner.nextLine();
@@ -152,7 +150,7 @@ public class OrderArchive {
                     try {
                         editPizzaSizeChoice = Integer.parseInt(input1);
                         if (editPizzaSizeChoice > 0 && editPizzaSizeChoice <= order.getOrderLines().size()) {
-                            System.out.println("Du har valgt at ændre linjenummer " + input1 + "'s størrelse");
+                            System.out.println("Du har valgt at ændre linjenummer " + input1 + "'s pizzastørrelse");
                             OrderLine pizza = order.getOrderLines().get(editPizzaSizeChoice - 1);
                             String pizzaSize = pizza.getSize();
 
@@ -197,7 +195,7 @@ public class OrderArchive {
                         System.out.println("Ugyldigt input! Prøv igen.");
                     }
                 }
-
+                break;
 
             case "4": // Tilføj kommentar
                 System.out.println("Tilføj kommentar:");
@@ -210,7 +208,7 @@ public class OrderArchive {
                 break;
 
             case "6": // Returner til hovedmenu
-
+                Main.showMainMenu(scanner);
         }
     }
 
@@ -224,17 +222,25 @@ public class OrderArchive {
     }
 
     public static void showStatisticsMenu(Scanner scanner) {
-        System.out.println("Tast 1 for at se den totale omsætning");
-        System.out.println("Tast 2 for at se den mest populære pizza");
-        int input = scanner.nextInt();
-        scanner.nextLine();
+        while (true) {
+            System.out.println("Hvilken statistik vil du se?");
+            System.out.println("> 1. Vis den totale omsætning");
+            System.out.println("> 2. Vis den mest populære pizza");
+            System.out.println("> 0. Returner til hovedmenu");
 
-        if (input == 1) {
-            showRevenue(scanner);
-        } else if (input == 2) {
-            showMostPopularPizza(scanner);
-        } else {
-            System.out.println("Prøv igen");
+            String input = scanner.nextLine();
+
+            if (input.equals("1")) {
+                showRevenue(scanner);
+                break;
+            } else if (input.equals("2")) {
+                showMostPopularPizza(scanner);
+                break;
+            } else if (input.equals("0")) {
+                break;
+            } else {
+                System.out.println("Ugyldigt input! Prøv igen.");
+            }
         }
     }
 
@@ -246,16 +252,7 @@ public class OrderArchive {
             }
         }
         System.out.println("Den totale omsætning er: " + revenue);
-        System.out.println("> 0. Returner til hovedmenu");
-        int input = scanner.nextInt();
-        scanner.nextLine();
-
-        if (input == 0) {
-        Main.showMainMenu(scanner);
-        } else {
-            System.out.println("Prøv igen");
-        }
-
+        Main.returnerTilMainMenuPrompt(scanner);
     }
 
     public static void showMostPopularPizza(Scanner scanner) {
@@ -269,10 +266,9 @@ public class OrderArchive {
 
             for (int j = 0; j < orderArchive.size(); j++) {
                 if (orderArchive.get(j).getOrderLines().get(j).getPizza() == pizza) {
-                count += (orderArchive.get(j).getOrderLines().get(j).getQuantity());
+                    count += (orderArchive.get(j).getOrderLines().get(j).getQuantity());
+                }
             }
-        }
-
             // Hvis pizzaen er mere populær end den nuværende, opdater
             if (count > maxCount) {
                 maxCount = count;
@@ -281,17 +277,9 @@ public class OrderArchive {
         }
         if (mostPopularPizza == null) {
             System.out.println("Ingen bestillinger er blevet oprettet endnu");
-            return;
-        }
-        System.out.println("Den most populære pizza er: " + mostPopularPizza.getName() + " Antal gange købt: " + maxCount);
-        System.out.println("> 0. Returner til hovedmenu");
-        int input = scanner.nextInt();
-        scanner.nextLine();
-
-        if (input == 0) {
-            Main.showMainMenu(scanner);
         } else {
-            System.out.println("Prøv igen");
+            System.out.println("Den most populære pizza er: " + mostPopularPizza.getName() + "pizza. Den er købt: " + maxCount + " gange");
         }
+        Main.returnerTilMainMenuPrompt(scanner);
     }
 }

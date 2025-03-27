@@ -92,7 +92,7 @@ public class Order {
 
         LocalDateTime pickupTime = setPickUpTime(scanner);
 
-        System.out.println("Indtast en kommentar");
+        System.out.println("Indtast en kommentar til ordren");
         System.out.println("> 0. For ikke at tilføje en kommentar");
 
         String customerComment = scanner.nextLine();
@@ -104,101 +104,126 @@ public class Order {
         System.out.println("Ordre oprettet! Udskriver kvittering...");
         System.out.println();
         Order.printReceipt(order);
+        System.out.println();
         OrderArchive.addOrderToArchive(order);
+
     }
 
     public static LocalDateTime setPickUpTime(Scanner scanner) {
-        LocalDateTime pickupTime;
+        int DEFAULT_ORDER_DELAY_IN_MINUTES = 15;
         int day = LocalDateTime.now().getDayOfMonth();
         int month = LocalDateTime.now().getMonthValue();
         int year = LocalDateTime.now().getYear();
         int pickupTimeHour = LocalDateTime.now().getHour();
         int pickupTimeMinutes = LocalDateTime.now().getMinute();
-        int DEFAULT_ORDER_DELAY_IN_MINUTES = 15;
 
         while (true) {
-
-
             System.out.println("Hvornår skal ordren afhentes? Nuværende tid: " + pickupTimeHour + ":" + pickupTimeMinutes);
-            System.out.println("> 1. Hurtigst muligt (" + DEFAULT_ORDER_DELAY_IN_MINUTES + " min.)" );
+            System.out.println("> 1. Hurtigst muligt (" + DEFAULT_ORDER_DELAY_IN_MINUTES + " min.)");
             System.out.println("> 2. Vælg tidspunkt");
             System.out.println("> 0. Annuller ordre");
 
-            int pickUpInput = scanner.nextInt();
-            scanner.nextLine();
+            String pickUpInput = scanner.nextLine();
 
-            if (pickUpInput == 0) {
+            if (pickUpInput.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.showMainMenu(scanner);
+                Main.returnerTilMainMenuPrompt(scanner);
+                return null;
             }
 
-            if (pickUpInput == 1) {
-                pickupTime = LocalDateTime.now().plusMinutes(DEFAULT_ORDER_DELAY_IN_MINUTES);
-                break;
-            } else if (pickUpInput == 2) {
-                int pickUpTimeDay;
+            if (pickUpInput.equals("1")) {
+                return LocalDateTime.now().plusMinutes(DEFAULT_ORDER_DELAY_IN_MINUTES);
+            } else if (pickUpInput.equals("2")) {
                 while (true) {
                     System.out.println("Skal ordren hentes i dag?");
                     System.out.println("> 1. 'I dag'");
                     System.out.println("> 2. 'Vælg anden dag'");
-                    pickUpTimeDay = scanner.nextInt();
-                    scanner.nextLine();
-                    if (pickUpTimeDay == 1) {
-                        break;
-                    } else if (pickUpTimeDay == 2) {
-                        while (true) {
-                            System.out.println("Indtast ønsket afhentningsdato (dag 1-31): ");
-                            day = scanner.nextInt();
-                            scanner.nextLine();
-                            System.out.println("Indtast ønsket måned (1-12): ");
-                            month = scanner.nextInt();
-                            scanner.nextLine();
-                            System.out.println("Indtast ønsket år (20XX): ");
-                            year = scanner.nextInt();
-                            scanner.nextLine();
+                    System.out.println("> 0. Annuller ordre");
 
-                            int maxDaysInMonth = YearMonth.of(year, month).lengthOfMonth();
-                            if (day >= 1 && day <= maxDaysInMonth && month >= 1 && month <= 12 && year >= 2025) {
-                                break;
-                            } else {
-                                System.out.println("Ugyldig dato! Prøv igen.");
+                    String input = scanner.nextLine();
+
+                    if (input.equals("0")) {
+                        System.out.println("Ordre annulleret");
+                        Main.returnerTilMainMenuPrompt(scanner);
+                    }
+
+                    if (input.equals("1")) {
+                        break;
+                    } else if (input.equals("2")) {
+                        while (true) {
+                            try {
+                                System.out.println("Indtast ønsket afhentningsdato (dag 1-31): ");
+                                day = Integer.parseInt(scanner.nextLine());
+
+                                if (day < 1 || day > 31) {
+                                    System.out.println("Ugyldigt input! Prøv igen");
+                                    continue;
+                                }
+
+                                System.out.println("Indtast ønsket måned (1-12): ");
+                                month = Integer.parseInt(scanner.nextLine());
+
+                                if (month < 1 || month > 12) {
+                                    System.out.println("Ugyldigt input! Prøv igen");
+                                    continue;
+                                }
+
+                                System.out.println("Indtast ønsket år (20XX): ");
+                                year = Integer.parseInt(scanner.nextLine());
+
+                                if (year < LocalDateTime.now().getYear()) {
+                                    System.out.println("Ugyldigt input! Prøv igen");
+                                    continue;
+                                }
+
+                                int maxDaysInMonth = YearMonth.of(year, month).lengthOfMonth();
+                                if (day >= 1 && day <= maxDaysInMonth) {
+                                    break;
+                                } else {
+                                    System.out.println("Ugyldigt input! Prøv igen");
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Ugyldigt input! Prøv igen");
                             }
                         }
                         break;
-                    } else {
-                        System.out.println("Ugyldigt input! Prøv igen.");
+                    }
+                    System.out.println("Ugyldigt input! Prøv igen");
+                }
+
+                while (true) {
+                    try {
+                        System.out.println("Hvornår skal ordren afhentes? Skriv timetal (0-23):");
+                        pickupTimeHour = Integer.parseInt(scanner.nextLine());
+
+                        if (pickupTimeHour >= 0 && pickupTimeHour < 24) {
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ugyldigt input! Prøv igen");
                     }
                 }
 
                 while (true) {
-                    System.out.println("Hvornår skal ordren afhentes? Skriv timetal (0-23):");
-                    pickupTimeHour = scanner.nextInt();
-                    scanner.nextLine();
-                    if (pickupTimeHour >= 0 && pickupTimeHour < 24) {
-                        break;
-                    } else {
-                        System.out.println("Ugyldigt input! Prøv igen.");
-                    }
-                }
+                    try {
+                        System.out.println("Hvornår skal ordren afhentes? Skriv minuttal (0-59):");
+                        pickupTimeMinutes = Integer.parseInt(scanner.nextLine());
 
-                while (true) {
-                    System.out.println("Hvornår skal ordren afhentes? Skriv minuttal (0-59):");
-                    pickupTimeMinutes = scanner.nextInt();
-                    scanner.nextLine();
-                    if (pickupTimeMinutes >= 0 && pickupTimeMinutes < 60) {
-                        break;
-                    } else {
-                        System.out.println("Ugyldigt input! Prøv igen.");
+                        if (pickupTimeMinutes >= 0 && pickupTimeMinutes < 60) {
+                            break;
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ugyldigt input! Prøv igen");
                     }
                 }
                 return LocalDateTime.of(year, month, day, pickupTimeHour, pickupTimeMinutes).withSecond(0).withNano(0);
             }
+            System.out.println("Ugyldigt input! Prøv igen");
         }
-        return LocalDateTime.now().plusMinutes(DEFAULT_ORDER_DELAY_IN_MINUTES);
     }
 
     public static void printReceipt(Order order) {
-        System.out.println("Order #" + order.getOrderNumber() + " | Til Afhentning: " + order.getPickupTime().withSecond(0).withNano(0));
+        System.out.println("Order #" + order.getOrderNumber() + " | Afhentningstid: " + order.getPickupTime().withSecond(0).withNano(0));
         printOrderLines(order);
         System.out.println("Kommentar: " + order.getCustomerComment());
         System.out.println("Total Price: " + order.getOrderTotalPrice() + " DKK");

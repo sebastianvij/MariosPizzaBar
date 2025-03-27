@@ -19,6 +19,7 @@ public class Main {
         switch (input) {
             case "0": // Afslut Program
                 System.out.println("Afslutter program...");
+                System.exit(0);
                 return;
 
             case "1": // Tilføj Ordre
@@ -55,7 +56,7 @@ public class Main {
                 PizzaMenuList.showPizzaMenuList();
                 break;
 
-            case "4": // Ordrehistorik
+            case "4": // Vis Ordrehistorik
                 OrderArchive.showFinishedOrders();
                 break;
 
@@ -67,5 +68,19 @@ public class Main {
                 System.out.println("Ugyldigt input! Prøv igen");
         }
         showMainMenu(scanner);
+    }
+
+    public static void returnerTilMainMenuPrompt(Scanner scanner) {
+        while (true) {
+            System.out.println("> 0. Returner til hovedmenu");
+            String input = scanner.nextLine();
+
+            if (input.equals("0")) {
+                Main.showMainMenu(scanner);
+                return;
+            } else {
+                System.out.println("Prøv igen");
+            }
+        }
     }
 }
