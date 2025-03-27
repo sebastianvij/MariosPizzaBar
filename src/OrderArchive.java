@@ -37,6 +37,7 @@ public class OrderArchive {
 
         for (Order order : activeOrders) {
             Order.printReceipt(order);
+            System.out.println();
         }
 
         Order chosenOrder;
@@ -47,7 +48,7 @@ public class OrderArchive {
             int orderEditChoice = scanner.nextInt() - 1;
             scanner.nextLine();
 
-            if (orderEditChoice == 0 ) {
+            if (input.equals("0")) {
                 Main.showMainMenu(scanner);
             }
 
@@ -140,11 +141,14 @@ public class OrderArchive {
                 System.out.println("Størrelsen er ændret til: " + order.getOrderLines().get(editPizzaSizeChoice).getSize());
                 break;
 
-            case 4:
-                showFinishedOrders();
+            case "4": // Tilføj kommentar
+                System.out.println("Tilføj kommentar:");
+                String newCustommerComment = scanner.nextLine();
+                order.setCustomerComment(newCustommerComment);
                 break;
-            case 5:
-                showStatisticsMenu(scanner);
+
+            case "5": // Ændr afhentningstidspunkt
+                order.setPickupTime(Order.setPickUpTime(scanner));
                 break;
             case 6: //
         }
