@@ -277,7 +277,7 @@ public class OrderArchive {
             int count = 0;
 
             for (int j = 0; j < orderArchive.size(); j++) {
-                if (orderArchive.get(j).getOrderLines().get(j).getPizza() == pizza) {
+                if (orderArchive.get(i).getOrderLines().get(j).getPizza() == pizza) {
                     count += (orderArchive.get(j).getOrderLines().get(j).getQuantity());
                 }
             }
@@ -290,7 +290,7 @@ public class OrderArchive {
         if (mostPopularPizza == null) {
             System.out.println("Ingen bestillinger er blevet oprettet endnu");
         } else {
-            System.out.println("Den most populære pizza er: " + mostPopularPizza.getName() + " pizza. Antal gange købt: " + maxCount);
+            System.out.println("Den mest populære pizza er: " + mostPopularPizza.getName() + " pizza. Antal gange købt: " + maxCount);
         }
         Main.returnerTilMainMenuPrompt(scanner);
     }
