@@ -71,9 +71,7 @@ public class Order {
         return isPaid;
     }
 
-    public void markAsPaid() {
-        this.isPaid = true;
-    }
+    
 
     public void cancelOrder() {
         this.isActive = false;

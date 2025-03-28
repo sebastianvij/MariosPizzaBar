@@ -277,14 +277,16 @@ public class OrderArchive {
         int maxCount = 0;
 
         for (int i = 0; i < orderArchive.size(); i++) {
-            Pizza pizza = orderArchive.get(i).getOrderLines().get(i).getPizza();
+            Pizza pizza = orderArchive.get(i).getOrderLines().get(0).getPizza();
             int count = 0;
 
-            for (int j = 0; j < orderArchive.size(); j++) {
-                if (orderArchive.get(i).getOrderLines().get(j).getPizza() == pizza) {
-                    count += (orderArchive.get(j).getOrderLines().get(j).getQuantity());
+            for (int j = 0; j < orderArchive.get(i).getOrderLines().size(); j++) {
+                Pizza currentPizza = orderArchive.get(i).getOrderLines().get(j).getPizza();
+                if (currentPizza.equals(pizza)) {
+                    count += orderArchive.get(i).getOrderLines().get(j).getQuantity();
                 }
             }
+
             // Hvis pizzaen er mere populær end den nuværende, opdater
             if (count > maxCount) {
                 maxCount = count;
