@@ -38,27 +38,28 @@ public class Main {
                         orderLineArrayList.add(OrderLine.createOrderLine(scanner));
                     } else if (addPizzaInput.equals("2")) {
                         Order.createOrder(scanner, orderLineArrayList);
-                        break;
+                        returnToMainMenuPrompt(scanner);
                     } else if (addPizzaInput.equals("0")) {
                         System.out.println("Ordre annulleret");
-                        returnerTilMainMenuPrompt(scanner);
+                        returnToMainMenuPrompt(scanner);
                     } else {
                         System.out.println("Ugyldigt input! Prøv igen");
                     }
                 }
-                break;
 
             case "2": // Vis Ordreliste (Rediger/Annuller/Færdiggør)
                 OrderArchive.showActiveOrders(scanner);
+                showMainMenu(scanner);
                 break;
 
             case "3": // Vis Pizzamenu
                 PizzaMenuList.showPizzaMenuList();
-                returnerTilMainMenuPrompt(scanner);
+                returnToMainMenuPrompt(scanner);
                 break;
 
             case "4": // Vis Ordrehistorik
                 OrderArchive.showFinishedOrders();
+                returnToMainMenuPrompt(scanner);
                 break;
 
             case "5": // Vis Statistik (Omsætning/Mest Populære Pizza)
@@ -71,7 +72,7 @@ public class Main {
         showMainMenu(scanner);
     }
 
-    public static void returnerTilMainMenuPrompt(Scanner scanner) {
+    public static void returnToMainMenuPrompt(Scanner scanner) {
         while (true) {
             System.out.println("> 0. Returner til hovedmenu");
             String input = scanner.nextLine();

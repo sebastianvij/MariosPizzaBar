@@ -16,11 +16,11 @@ public class PizzaMenuList {
         pizzaList.add(new Pizza("Vesuvio", 60, 2, new String[]{"Tomatsauce", "Ost", "Skinke"}));
         pizzaList.add(new Pizza("Hawaii", 65, 3, new String[]{"Tomatsauce", "Ost", "Skinke", "Ananas"}));
         pizzaList.add(new Pizza("Pepperoni", 62, 4, new String[]{"Tomatsauce", "Ost", "Pepperoni"}));
-        pizzaList.add(new Pizza("Kebabpizza", 70, 5, new String[]{"Tomatsauce", "Ost", "Kebab", "Løg", "Salat", "Dressing"}));
+        pizzaList.add(new Pizza("Kebab", 70, 5, new String[]{"Tomatsauce", "Ost", "Kebab", "Løg", "Salat", "Dressing"}));
         pizzaList.add(new Pizza("Buffalo", 66, 6, new String[]{"Tomatsauce", "Ost", "Buffalo Mozzarella", "Basilikum"}));
         pizzaList.add(new Pizza("Thors Special", 75, 7, new String[]{"Tomatsauce", "Ost", "Tyrenosser", "Kapers", "Brocolli"}));
         pizzaList.add(new Pizza("BBQ Kylling", 72, 8, new String[]{"BBQ-sauce", "Ost", "Kylling", "Løg", "Bacon"}));
-        pizzaList.add(new Pizza("Quattro Formaggi", 78, 9, new String[]{"Tomatsauce", "Ost", "Gorgonzola", "Parmesan", "Ricotta"}));
+        pizzaList.add(new Pizza("Oskars Special", 78, 9, new String[]{"Coca Cola Sauce", "Ost", "Coca Cola Dåse"}));
         pizzaList.add(new Pizza("Vegetariana", 68, 10, new String[]{"Tomatsauce", "Ost", "Champignon", "Løg", "Paprika", "Oliven", "Artiskok"}));
         pizzaList.add(new Pizza("Diavola", 70, 11, new String[]{"Tomatsauce", "Ost", "Pepperoni", "Chili"}));
         pizzaList.add(new Pizza("Calzone", 74, 12, new String[]{"Tomatsauce", "Ost", "Skinke", "Champignon"}));

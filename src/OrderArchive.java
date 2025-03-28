@@ -18,11 +18,10 @@ public class OrderArchive {
     public static void showActiveOrders(Scanner scanner) {
         if (orderArchive.isEmpty()) {
             System.out.println("Der er ingen aktive ordre");
-            return;
+            Main.returnToMainMenuPrompt(scanner);
         }
         activeOrders.clear();
 
-        System.out.println("Aktive ordrer: ");
         for (Order order : orderArchive) {
             if (order.isActive()) {
                 activeOrders.add(order);
@@ -30,18 +29,20 @@ public class OrderArchive {
         }
         if (activeOrders.isEmpty()) {
             System.out.println("Der er ingen aktive ordre");
-            return;
+            Main.returnToMainMenuPrompt(scanner);
         }
 
         Collections.sort(activeOrders, Comparator.comparing(Order::getPickupTime));
 
+        System.out.println("Aktive ordrer: ");
         for (Order order : activeOrders) {
+            System.out.println("------------------------------------");
             Order.printReceipt(order);
-            System.out.println("---------------------------");
+            System.out.println("------------------------------------");
         }
-
         Order chosenOrder = null;
         while (true) {
+            System.out.println("");
             System.out.println("Hvilken ordre vil du redigere?");
             System.out.println("> Indtast ordrenummer for at redigere ordre");
             System.out.println("> 0. Returner til hovedmenu");
@@ -49,7 +50,6 @@ public class OrderArchive {
             String input = scanner.nextLine();
 
             if (input.equals("0")) {
-                Main.showMainMenu(scanner);
                 return;
             }
 
@@ -88,12 +88,14 @@ public class OrderArchive {
                     return;
                 case "2": // Cancel Order
                     chosenOrder.cancelOrder();
-                    System.out.println("Du har annulleret ordre #" + chosenOrder.getOrderNumber());
+                    System.out.println("Du har annulleret ordre #" + chosenOrder.getOrderNumber() + "\n");
+                    Main.returnToMainMenuPrompt(scanner);
                     return;
                 case "3": // Finish Order
                     chosenOrder.setComplete();
-                    System.out.println("Du har færdiggjort ordre #" + chosenOrder.getOrderNumber());
-                    return;
+                    System.out.println("Du har færdiggjort ordre #" + chosenOrder.getOrderNumber() + "\n");
+                    Main.returnToMainMenuPrompt(scanner);
+                    break;
                 case "0": // Returner til hovedmenu
                     Main.showMainMenu(scanner);
                     return;
@@ -219,11 +221,13 @@ public class OrderArchive {
             case "6": // Returner til hovedmenu
                 Main.showMainMenu(scanner);
         }
+        Main.returnToMainMenuPrompt(scanner);
     }
 
     public static void showFinishedOrders() {
         if (orderArchive.isEmpty()) {
             System.out.println("Der er ingen afsluttede ordrer");
+            return;
         }
         System.out.println("Afsluttede ordrer:");
         for (Order order : orderArchive) {
@@ -264,7 +268,7 @@ public class OrderArchive {
             }
         }
         System.out.println("Den totale omsætning er: " + revenue);
-        Main.returnerTilMainMenuPrompt(scanner);
+        Main.returnToMainMenuPrompt(scanner);
     }
 
     public static void showMostPopularPizza(Scanner scanner) {
@@ -292,6 +296,6 @@ public class OrderArchive {
         } else {
             System.out.println("Den mest populære pizza er: " + mostPopularPizza.getName() + " pizza. Antal gange købt: " + maxCount);
         }
-        Main.returnerTilMainMenuPrompt(scanner);
+        Main.returnToMainMenuPrompt(scanner);
     }
 }

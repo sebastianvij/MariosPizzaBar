@@ -101,12 +101,10 @@ public class Order {
             customerComment = "";
         }
         Order order = new Order(orderLines, pickupTime, customerComment);
-        System.out.println("Ordre oprettet! Udskriver kvittering...");
-        System.out.println();
+        System.out.println("Ordre oprettet! Udskriver kvittering...\n");
         Order.printReceipt(order);
         System.out.println();
         OrderArchive.addOrderToArchive(order);
-
     }
 
     public static LocalDateTime setPickUpTime(Scanner scanner) {
@@ -127,7 +125,7 @@ public class Order {
 
             if (pickUpInput.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.returnerTilMainMenuPrompt(scanner);
+                Main.returnToMainMenuPrompt(scanner);
                 return null;
             }
 
@@ -144,7 +142,7 @@ public class Order {
 
                     if (input.equals("0")) {
                         System.out.println("Ordre annulleret");
-                        Main.returnerTilMainMenuPrompt(scanner);
+                        Main.returnToMainMenuPrompt(scanner);
                     }
 
                     if (input.equals("1")) {
@@ -168,7 +166,7 @@ public class Order {
                                     continue;
                                 }
 
-                                System.out.println("Indtast ønsket år (2025 - 2035):");
+                                System.out.println("Indtast ønsket år (" + LocalDateTime.now().getYear() + "-" + (LocalDateTime.now().getYear() + 1) + "):");
                                 year = Integer.parseInt(scanner.nextLine());
 
                                 if (year < 2025 || year > 2035 || year < LocalDateTime.now().getYear()) {

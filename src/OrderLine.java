@@ -81,11 +81,12 @@ public class OrderLine {
 
             if (input.equalsIgnoreCase("m")) {
                 showPizzaMenuList();
+                System.out.println();
                 createOrderLine(scanner);
             }
             if (input.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.returnerTilMainMenuPrompt(scanner);
+                Main.returnToMainMenuPrompt(scanner);
             }
             try {
                 int pizzaChoice = Integer.parseInt(input);
@@ -115,7 +116,7 @@ public class OrderLine {
                 break;
             } else if (input.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.returnerTilMainMenuPrompt(scanner);
+                Main.returnToMainMenuPrompt(scanner);
             }
             System.out.println("Ugyldigt input! Prøv igen");
         }
@@ -129,7 +130,7 @@ public class OrderLine {
 
             if (input.equals("0")) {
                 System.out.println("Ordre annulleret");
-                Main.returnerTilMainMenuPrompt(scanner);
+                Main.returnToMainMenuPrompt(scanner);
             } else {
                 try {
                     int quantityChoice = Integer.parseInt(input);
@@ -148,7 +149,7 @@ public class OrderLine {
         } else {
             System.out.println("Du har tilføjet " + quantity + " " + size + " " + pizza.getName() + " pizzaer til din ordre");
         }
+        System.out.println();
         return new OrderLine(pizza, size, quantity);
     }
 }
-
