@@ -9,6 +9,7 @@ public class OrderArchive {
 
     public static void addOrderToArchive(Order order) {
         orderArchive.add(order);
+        // kommentar
     }
 
     public static void removeOrderFromActiveOrder(Order order) {
